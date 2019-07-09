@@ -1,7 +1,6 @@
 #include "revpi_di.h"
 
-
- int main()
+int main()
 {
 int pin_state;
 	while(1)
@@ -19,3 +18,4 @@ int pin_state;
         sleep(1);
         printf("Read value %d from pin I_1 \n", pin_state);
 	}
+}
