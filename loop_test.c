@@ -5,36 +5,34 @@
 int main()
 {
 int pin_state;
-char pin_number[5];
+char output_variable[10];
+char input_variable[10];
 
-for (int i=10; i<=16; i++)
+for (int i=1; i<=16; i++)
 {
         printf("------------------------------------------------------");
         printf("\n pin number %d",i);
-        pin_number[0] = '\0';
-        char output_variable[] = "O_";
-        char input_variable[] = "I_";
 
-        sprintf(pin_number,"%d",i);
-        strcat(output_variable,pin_number);
-        strcat(input_variable,pin_number);
+        snprintf(output_variable, 10, "O_%d", i); 
+        snprintf(input_variable, 10, "I_%d", i); 
 
         pin_state = 0;
         writeVariableValue(output_variable,pin_state);
         sleep(1);
-        printf("\n Set value %d on pin O_%d \n", pin_state,i);
+        printf("\n Set value %d on pin %s \n", pin_state,output_variable);
         readVariableValue(input_variable,&pin_state);
         sleep(1);
-        printf(" Read value %d from pin I_%d \n", pin_state,i);
+        printf(" Read value %d from pin %s \n", pin_state,input_variable);
         (pin_state ==0) ? printf(" \n success \n") : printf(" \n failure \n");
- 
+
         pin_state = 1;
         writeVariableValue(output_variable,pin_state);
         sleep(1);
-        printf(" Set value %d on pin O_%d \n", pin_state,i);
+        printf(" Set value %d on pin %s \n", pin_state,output_variable);
         readVariableValue(input_variable,&pin_state);
         sleep(1);
-        printf(" Read value %d from pin I_%d \n", pin_state,i);
+        printf(" Read value %d from pin %s \n", pin_state,input_variable);
         (pin_state ==1) ? printf(" \n success \n") : printf(" \n failure \n");
+
 }
 }
