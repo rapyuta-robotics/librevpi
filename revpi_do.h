@@ -11,8 +11,10 @@
 #include "piControlIf.h"
 #include "piControl.h"
 
-void writeVariableValue(char *pszVariableName, uint32_t i32uValue)
+void revpi_set_do(int pin_number, uint32_t i32uValue)
 {
+		char pszVariableName[10];
+		snprintf(pszVariableName, 10, "O_%d", pin_number); 	
 		int rc;
 		SPIVariable sPiVariable;
 		SPIValue sPIValue;

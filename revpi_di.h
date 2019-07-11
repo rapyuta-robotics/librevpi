@@ -11,8 +11,10 @@
 #include "piControlIf.h"
 #include "piControl.h"
 
-void readVariableValue(char *pszVariableName, int *pin_state)
+int revpi_get_di(int pin_number)
 {
+		char pszVariableName[10];
+		snprintf(pszVariableName, 10, "I_%d", pin_number); 
 		bool cyclic = true;
 		bool quiet = false;
 		int rc;
@@ -26,7 +28,6 @@ void readVariableValue(char *pszVariableName, int *pin_state)
 		rc = piControlGetVariableInfo(&sPiVariable);
 		if (rc < 0) {
 				printf("Cannot find variable '%s'\n", pszVariableName);
-				return;
 		}
 		if (sPiVariable.i16uLength == 1) {
 				sPIValue.i16uAddress = sPiVariable.i16uAddress;
@@ -35,7 +36,7 @@ void readVariableValue(char *pszVariableName, int *pin_state)
 				if (rc < 0)
 						printf("Get bit error\n");
 				else 
-						*pin_state  = sPIValue.i8uValue;
+						return(sPIValue.i8uValue);
 		} 
 
 		else if (sPiVariable.i16uLength == 8) {
@@ -43,7 +44,7 @@ void readVariableValue(char *pszVariableName, int *pin_state)
 				if (rc < 0)
 						printf("Read error\n");
 				else 
-						*pin_state  = i8uValue;
+						return(i8uValue);
 		}
 
 		else if (sPiVariable.i16uLength == 16) {
@@ -51,7 +52,7 @@ void readVariableValue(char *pszVariableName, int *pin_state)
 				if (rc < 0)
 						printf("Read error\n");
 				else 
-						*pin_state  = i16uValue;
+						return(i16uValue);
 		} 
 
 		else if (sPiVariable.i16uLength == 32) {
@@ -59,7 +60,7 @@ void readVariableValue(char *pszVariableName, int *pin_state)
 				if (rc < 0)
 						printf("Read error\n");
 				else       
-						*pin_state  = i32uValue;
+						return(i32uValue);
 		}
 		else
 				printf("Could not read variable %s. Internal Error\n", pszVariableName);
