@@ -1,8 +1,8 @@
 #ifndef REVPI_H_
 #define REVPI_H_
 
-#include "piControl.h"
 #include <stdint.h>
+#include "piControl.h"
 
 #ifdef __cplusplus
 extern "C" {
