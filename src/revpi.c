@@ -37,7 +37,7 @@ static int piControlGetDeviceInfo(revpi_peripheral* revpi) {
   if (revpi->pi_control_fd < 0)
     return -ENODEV;
 
-ret = ioctl(revpi->pi_control_fd, KB_GET_DEVICE_INFO, &revpi->device_info); 
+ret = ioctl(revpi->pi_control_fd, KB_GET_DEVICE_INFO, &revpi->device_info);
 if (ret < 0)
     return ret;
 
@@ -50,9 +50,9 @@ static void piControlOpen(revpi_peripheral *revpi) {
   if (!opened) {
     fd = open(PICONTROL_DEVICE, O_RDWR);
     if (fd > 0) {
-    	opened = true;
+        opened = true;
     } else {
-    	printf("Open failed:%d \n", fd);
+        printf("Open failed:%d \n", fd);
     }
   }
   revpi->pi_control_fd = fd;
@@ -121,12 +121,13 @@ int revpi_init(revpi_peripheral *revpi) {
   int ret = 0;
 
   piControlOpen(revpi);
-  strncpy(revpi->variable.strVarName, revpi->pin_name, sizeof(revpi->variable.strVarName));	
+  strncpy(revpi->variable.strVarName, revpi->pin_name, sizeof(revpi->variable.strVarName));
   piControlGetDeviceInfo(revpi); /* Optional info */
   ret = piControlGetVariableInfo(revpi);
   revpi->value.i8uValue = 0;
   revpi->value.i16uAddress = revpi->variable.i16uAddress;
   revpi->value.i8uBit = revpi->variable.i8uBit;
+
   return ret;
 }
 
@@ -140,9 +141,22 @@ int revpi_set_do_level(revpi_peripheral *revpi, uint8_t level) {
     return -1;
 }
 
+int revpi_exit(revpi_peripheral *revpi) {
+    piControlClose(revpi);
+    return 0;
+}
+
 int revpi_get_di_level(revpi_peripheral *revpi) {
   uint8_t level = 0;
   if (piControlRead(revpi, &level) == 0)
     return level;
   return -1;
+}
+
+int revpi_set_do_push_pull(revpi_peripheral *revpi, uint16_t push_pull) {
+    uint8_t push_pull_t[2] = {0};
+
+    push_pull_t[0] = (uint8_t)(push_pull & 0xFF);
+    push_pull_t[1] = (uint8_t)(push_pull >> 8);
+    return piControlWrite(revpi, push_pull_t);
 }
