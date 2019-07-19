@@ -11,9 +11,9 @@ extern "C" {
 typedef struct revpi_peripheral_t {
   int pi_control_fd;
   char pin_name[32];
-  SDeviceInfo *device_info;
-  SPIValue *value;
-  SPIVariable *variable;
+  SDeviceInfo device_info;
+  SPIValue value;
+  SPIVariable variable;
 } revpi_peripheral;
 
 int revpi_init(revpi_peripheral *revpi);
