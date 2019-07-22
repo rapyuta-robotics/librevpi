@@ -83,7 +83,7 @@ static int piControlRead(revpi_peripheral *revpi, uint8_t *data) {
     ret = lseek(revpi->pi_control_fd, revpi->variable.i16uAddress, SEEK_SET);
     if (ret < 0)
       return ret;
-    ret = read(revpi->pi_control_fd, data, revpi->variable.i16uLength);
+    ret = read(revpi->pi_control_fd, data, (revpi->variable.i16uLength >> 3));
     if (ret < 0)
       return ret;
   }
@@ -108,7 +108,7 @@ static int piControlWrite(revpi_peripheral *revpi, uint8_t *data) {
     ret = lseek(revpi->pi_control_fd, revpi->variable.i16uAddress, SEEK_SET);
     if (ret < 0)
       return ret;
-    ret = write(revpi->pi_control_fd, data, revpi->variable.i16uLength);
+    ret = write(revpi->pi_control_fd, data, (revpi->variable.i16uLength >> 3));
     if (ret < 0)
       return ret;
   }
@@ -154,10 +154,8 @@ int revpi_get_di_level(revpi_peripheral *revpi) {
 }
 
 int revpi_set_do_push_pull(revpi_peripheral *revpi, uint16_t push_pull) {
-    uint8_t push_pull_t[2] = {0};
+    uint8_t push_pull_t[2] = {push_pull & 0xFF, push_pull >> 8};
 
-    push_pull_t[0] = (uint8_t)(push_pull & 0xFF);
-    push_pull_t[1] = (uint8_t)(push_pull >> 8);
     return piControlWrite(revpi, push_pull_t);
 }
 
