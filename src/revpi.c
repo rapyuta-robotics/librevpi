@@ -160,3 +160,10 @@ int revpi_set_do_push_pull(revpi_peripheral *revpi, uint16_t push_pull) {
     push_pull_t[1] = (uint8_t)(push_pull >> 8);
     return piControlWrite(revpi, push_pull_t);
 }
+
+int revpi_get_ai_value(revpi_peripheral *revpi) {
+    uint8_t value = 0;
+    if (piControlRead(revpi, &value) == 0)
+      return value;
+    return -1;
+}
