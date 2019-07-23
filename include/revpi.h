@@ -22,6 +22,8 @@ int revpi_set_do_level(revpi_peripheral *revpi, uint8_t level);
 int revpi_get_di_level(revpi_peripheral *revpi);
 int revpi_set_do_push_pull(revpi_peripheral *revpi, uint16_t push_pull);
 int revpi_get_ai_value(revpi_peripheral *revpi);
+int revpi_read_variable(revpi_peripheral *revpi, uint8_t *data);
+int revpi_write_variable(revpi_peripheral *revpi, uint8_t *data);
 
 #ifdef __cplusplus
 }

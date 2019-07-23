@@ -165,3 +165,11 @@ int revpi_get_ai_value(revpi_peripheral *revpi) {
       return value;
     return -1;
 }
+
+int revpi_read_variable(revpi_peripheral *revpi, uint8_t *data) {
+    return piControlRead(revpi, data);
+}
+
+int revpi_write_variable(revpi_peripheral *revpi, uint8_t *data) {
+    return piControlWrite(revpi, data);
+}
